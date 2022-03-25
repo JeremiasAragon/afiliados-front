@@ -1,0 +1,102 @@
+<div class="container mt-5">
+    <div class="mb-5 d-flex align-items-center">
+        <h1>Crud afiliados</h1>
+        <button class="btn btn-outline-primary btn-sm ml-5" (click)="navigateBack()">Regresar</button>
+    </div>
+    <div class="row mb-5">
+        <div class="col col-12">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">nombre</th>
+                <th scope="col">apellidos</th>
+                <th scope="col">documento</th>
+                <th scope="col">dirección</th>
+                <th scope="col">teléfono</th>
+                <th scope="col">mail</th>
+                <th scope="col">estado</th>
+                <th scope="col">tipo documento</th>
+                <th scope="col">acciones</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let afiliado of (afiliados$ | async)">
+                <th scope="row">{{ afiliado.id }}</th>
+                <td>{{ afiliado.nombre }}</td>
+                <td>{{ afiliado.apellidos }}</td>
+                <td>{{ afiliado.documento }}</td>
+                <td>{{ afiliado.direccion }}</td>
+                <td>{{ afiliado.telefono }}</td>
+                <td>{{ afiliado.mail }}</td>
+                <td>{{ afiliado.estado === 1 ? 'Activo' : 'Inactivo'}}</td>
+                <td>{{ afiliado.tipoDocumento.nombre }}</td>
+                <td>
+                    <button class="btn btn-primary mr-2" (click)="editAfiliado(afiliado.id)">Editar</button>
+                    <button class="btn btn-danger" (click)="deleteAfiliado(afiliado.id)">Eliminar</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <h3 class="mb-4">
+                {{ title }}
+            </h3>
+            <form class="form" [formGroup]="form">
+                <div class="mb-2">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                    <p class="fw-lighter danger" *ngIf="nombre.touched && nombre.errors?.required">Este campo es obligatorio</p>
+                </div>
+                <div class="mb-2">
+                    <label for="apellidos" class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" id="apellidos" formControlName="apellidos">
+                    <p class="fw-lighter danger" *ngIf="apellidos.touched && apellidos.errors?.required">Este campo es obligatorio</p>
+                </div>
+                <div class="mb-2">
+                    <label for="mail" class="form-label">Tipo de documento</label>
+                    <select class="form-select form-control" formControlName="tipoDocumento">
+                        <option value="">Seleccione...</option>
+                        <ng-container *ngFor="let tipoDocumento of tiposDocumento$ | async">                            
+                            <option [value]="tipoDocumento.id">{{ tipoDocumento.nombre }}</option>
+                        </ng-container>
+                    </select>
+                    <p class="fw-lighter danger" *ngIf="tipoDocumento.touched && tipoDocumento.errors?.required">Este campo es obligatorio</p>
+                </div>
+                <div class="mb-2">
+                    <label for="documento" class="form-label">Número de documento</label>
+                    <input type="text" class="form-control" id="documento" formControlName="documento">
+                    <p class="fw-lighter danger" *ngIf="documento.touched && documento.errors?.required">Este campo es obligatorio</p>
+                </div>
+                <div class="mb-2">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="direccion" formControlName="direccion">
+                    <p class="fw-lighter danger" *ngIf="direccion.touched && direccion.errors?.required">Este campo es obligatorio</p>
+                </div>
+                <div class="mb-2">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" formControlName="telefono">
+                    <p class="fw-lighter danger" *ngIf="telefono.touched && telefono.errors?.required">Este campo es obligatorio</p>
+                </div>
+                <div class="mb-2">
+                    <label for="mail" class="form-label">Mail</label>
+                    <input type="email" class="form-control" id="mail" formControlName="mail">
+                    <p class="fw-lighter danger" *ngIf="mail.touched && mail.errors?.required">Este campo es obligatorio</p>
+                </div>
+                <div class="mb-5">
+                    <label for="mail" class="form-label">Estado</label>
+                    <select class="form-select form-control" formControlName="estado">
+                        <option value="">Seleccione...</option>
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
+                    </select>
+                    <p class="fw-lighter danger" *ngIf="estado.touched && estado.errors?.required">Este campo es obligatorio</p>
+                </div>
+                <button class="btn btn-primary mb-5" (click)="saveAfiliado()">Guardar</button>
+              </form>
+        </div>
+    </div>
+</div>

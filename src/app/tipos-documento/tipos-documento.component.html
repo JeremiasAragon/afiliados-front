@@ -1,0 +1,52 @@
+<div class="container mt-5">
+    <div class="mb-5 d-flex align-items-center">
+        <h1>Crud tipos documento</h1>
+        <button class="btn btn-outline-primary btn-sm ml-5" (click)="navigateBack()">Regresar</button>
+    </div>
+    <div class="row">
+        <div class="col col-6">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">nombre</th>
+                <th scope="col">estado</th>
+                <th scope="col">acciones</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let tipoDocumento of (tiposDocumento$ | async)">
+                <th scope="row">{{ tipoDocumento.id }}</th>
+                <td>{{ tipoDocumento.nombre }}</td>
+                <td>{{ tipoDocumento.estado === 1 ? 'Activo' : 'Inactivo' }}</td>
+                <td>
+                    <button class="btn btn-primary mr-2" (click)="editTipoDocumento(tipoDocumento.id)">Editar</button>
+                    <button class="btn btn-danger" (click)="deleteTipoDocumento(tipoDocumento.id)">Eliminar</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+        </div>
+        <div class="col-5 ml-5">
+            <h3 class="mb-4">
+                {{ title }}
+            </h3>
+            <form class="form" [formGroup]="form">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                    <p class="fw-lighter danger" *ngIf="nombre.touched && nombre.errors?.required">Este campo es obligatorio</p>
+                </div>
+                <div class="mb-5">
+                    <select class="form-select form-control" formControlName="estado">
+                        <option value="">Seleccione...</option>
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
+                    </select>
+                    <p class="fw-lighter danger" *ngIf="estado.touched && estado.errors?.required">Este campo es obligatorio</p>
+                </div>
+                <button class="btn btn-primary" (click)="saveTipoDocumento()">Guardar</button>
+              </form>
+        </div>
+    </div>
+</div>
